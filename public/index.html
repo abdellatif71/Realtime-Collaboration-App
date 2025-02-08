@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realtime Collaboration App</title>
+  <style>body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+textarea {
+    width: 80%;
+    height: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    resize: none;
+}
+</style>
+</head>
+<body>
+    <h1>Realtime Kollaborationsplattform</h1>
+    <textarea id="editor" placeholder="Beginne zu schreiben..."></textarea>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>const socket = io();
+        const editor = document.getElementById('editor');
+        
+        // Sende Textänderungen an den Server
+        editor.addEventListener('input', () => {
+            socket.emit('text-update', editor.value);
+        });
+        
+        // Empfange Textänderungen von anderen Benutzern
+        socket.on('text-update', (data) => {
+            editor.value = data;
+        });
+        </script>
+</body>
+</html>
